@@ -1,4 +1,7 @@
 package NutzerDAO;
+import Nutzer.Nutzer;
+import Datenbank.Datenbank;
+
 import java.sql.*;
 import java.util.*;
 
