@@ -69,7 +69,7 @@ public class NutzerDAO {
                 """;
         try (Connection con = Datenbank.verbindungHerstellen();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, Nutzer_Id);
+            ps.setInt(1, nutzer_id);
             int zeilen = ps.executeUpdate();
             if (zeilen == 0) {
                 System.out.println("Nutzer nicht gefunden. ");
