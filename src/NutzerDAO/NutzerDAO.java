@@ -16,6 +16,7 @@ public class NutzerDAO {
             ps.setString(2, nachname);
             ps.setString(3, email);
             ps.setDouble(4, gewicht);
+            ps.executeUpdate();
             System.out.println("Nutzer wurde angelegt. ");
         }catch (SQLException e) {
             System.out.println("Fehler beim Anlegen des Nutzers: " + e.getMessage());
