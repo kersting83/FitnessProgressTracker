@@ -37,6 +37,7 @@ public class Nutzer {
     }
     public String toJson(){
         return String.format(java.util.Locale.US, "{\"id\":%d,\"name\":\"%s\",\"email\":\"%s\",\"gewicht\":%.1f}",
-                id, vorname.replace("\"", "\\\""), nachname.replace("\"", "\\\""), email.replace("\"", "\\\""), gewicht);
+                id, vorname.replace("\"", "\\\""), nachname.replace("\"", "\\\""),
+                email.replace("\"", "\\\""), gewicht);
     }
 }
