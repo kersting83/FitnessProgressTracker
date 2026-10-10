@@ -62,7 +62,7 @@ public class NutzerDAO {
             System.out.println("Fehler beim Laden: " + e.getMessage());
         }
     }
-    public void nutzerLoeschen(int nutzerId) {
+    public void nutzerLoeschen(int nutzer_id) {
         String sql = """
                 DELETE FROM nutzer
                 WHERE nutzer_id = ?;
