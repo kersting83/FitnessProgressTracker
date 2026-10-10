@@ -21,5 +21,60 @@ public class NutzerDAO {
             System.out.println("Fehler beim Anlegen des Nutzers: " + e.getMessage());
         }
     }
-    return liste;
+    public ArrayList<Nutzer> alleNutzerLaden() throws SQLException{
+        ArrayList<Nutzer> liste = new ArrayList<>();
+        String sql = """
+                SELECT nutzer_id, vorname, nachname, email, gewicht
+                FROM nutzer;
+                ORDER BY nutzer_id;
+                """;
+        try (Connection con = Datenbank.verbindungHerstellen();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                liste.add(new Nutzer(
+                        rs.getInt("Nutzer_id"),
+                        rs.getString("vorname"),
+                        rs.getString("nachname"),
+                        rs.getString("email"),
+                        rs.getDouble("gewicht")));
+            }
+        }
+        return liste;
+
+    }
+    public void nutzerAnzeigen() {
+        try {
+            ArrayList<Nutzer> liste = alleNutzerLaden();
+            if (liste.isEmpty()) {
+                System.out.println("Keine Nutzer vorhanden.");
+                return;
+            }
+            System.out.println("ID   Vorname   Nachname   Email   Gewicht");
+            for (Nutzer n : liste) {
+                System.out.println(n);
+            }
+        } catch (SQLException e) {
+            System.out.println("Fehler beim Laden: " + e.getMessage());
+        }
+    }
+    public void nutzerLoeschen(int nutzerId) {
+        String sql = """
+                DELETE FROM nutzer
+                WHERE nutzer_id = ?;
+                """;
+        try (Connection con = Datenbank.verbindungHerstellen();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, Nutzer_Id);
+            int zeilen = ps.executeUpdate();
+            if (zeilen == 0) {
+                System.out.println("Nutzer nicht gefunden. ");
+            }else {
+                System.out.println("Nutzer und seine Workouts wurden gelöscht.");
+            }
+        }catch (SQLException e) {
+            System.out.println("Fehler beim Löschen der Nutzerdaten: " + e.getMessage());
+        }
+
+    }
 }
