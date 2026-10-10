@@ -1,5 +1,6 @@
 package Uebungsverwaltung;
 import java.sql.*;
+import Datenbank.Datenbank;
 
 public class Uebungsverwaltung {
 
