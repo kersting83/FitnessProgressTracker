@@ -13,4 +13,20 @@ public class Uebungsverwaltung {
             return "Profi";
         }
     }
+    // Dieser Abschnitt wird von der API genutzt
+    public int zaehleWorkouts(int nutzer_id) throws SQLException {
+        String sql = """
+                SELECT COUNT(*)
+                FROM workouts
+                WHERE nutzer_id = ?;
+                """;
+        try(Connection con = Datenbank.verbindungHerstellen();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, nutzer_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                rs.next();
+                return rs.getInt(1);
+            }
+        }
+    }
 }
