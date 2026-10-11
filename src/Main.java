@@ -64,4 +64,14 @@ private static void zeigeMenue() {
     System.out.println("8 Statistik anzeigen");
     System.out.println("0 Beenden");
 }
+// Exception Handling bei Benutzereingaben
+private static int leseInt(Scanner sc, String text) {
+    while (true) {
+        System.out.print(text);
+        try {
+            return Integer.parseInt(sc.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Bitte eine ganze Zahl eingeben.");
+        }
+    }
 }
