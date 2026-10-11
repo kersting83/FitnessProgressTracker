@@ -27,4 +27,22 @@ public class Main {
         Uebungsverwaltung uebungVw = new Uebungsverwaltung();
         Scanner sc = new Scanner(System.in);
     }
+            }
+            case 2 -> nutzerVw.nutzerAnzeigen();
+            case 3 -> nutzerVw.nutzerLoeschen(leseInt(sc, "Nutzer-ID: "));
+            case 4 -> uebungVw.fortschrittAnzeigen(leseInt(sc, "Nutzer-ID: "));
+            case 5 -> uebungVw.workoutsAnzeigen(leseInt(sc, "Nutzer-ID: "));
+            case 6 -> {
+                int id = leseInt(sc, "Workout-ID: ");
+                int saetze = leseInt(sc, "Neue Sätze: ");
+                int wdh = leseInt(sc, "Neue Wiederholungen: ");
+                double kg = leseDouble(sc, "Neues Gewicht in kg: ");
+                uebungVw.workoutAendern(id, saetze, wdh, kg);
+            }
+            case 7 -> uebungVw.workoutLoeschen(leseInt(sc, "Workout-ID: "));
+            case 8 -> uebungVw.statistikAnzeigen(leseInt(sc, "Nutzer-ID: "));
+            case 0 -> laeuft = false;
+            default -> System.out.println("Ungültige Auswahl.");
+        }
+    }
 }
