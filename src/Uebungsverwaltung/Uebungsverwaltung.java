@@ -90,4 +90,47 @@ public class Uebungsverwaltung {
             System.out.println("Fehler: " + e.getMessage());
         }
     }
+    public void workoutAendern(int workoutId, int saetze, int wiederholungen, double gewicht_kg) {
+        String sql = """
+                UPDATE workouts
+                SET saetze = ?,
+                wiederholungen = ?,
+                gewicht_kg = ?
+                WHERE workout_id = ?;
+                """;
+        try(Connection con = Datenbank.verbindungHerstellen();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, saetze);
+            ps.setInt(2, wiederholungen);
+            ps.setDouble(3, gewicht_kg);
+            ps.setInt(4, workoutId);
+            int zeilen = ps.executeUpdate();
+            if (zeilen == 0) {
+                System.out.println("Workout nicht gefunden. ");
+            }else {
+                System.out.println("Workout wurde geändert.");
+            }
+        }catch(SQLException e) {
+            System.out.println("Fehler beim Ändern: " + e.getMessage());
+        }
+    }
+    public void workoutLoeschen(int workoutId) {
+        String sql = """
+                   DELETE FROM workouts
+                    WHERE workout_id = ?;
+                    """;
+
+        try (Connection con = Datenbank.verbindungHerstellen();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, workoutId);
+            int zeilen = ps.executeUpdate();
+            if (zeilen == 0) {
+                System.out.println("Workout nicht gefunden.");
+            } else {
+                System.out.println("Workout wurde gelöscht.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Fehler beim Löschen: " + e.getMessage());
+        }
+        }
 }
