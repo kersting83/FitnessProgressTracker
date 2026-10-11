@@ -56,4 +56,38 @@ public class Uebungsverwaltung {
             System.out.println("Fehler: " + e.getMessage());
         }
     }
+    public void workoutsAnzeigen(int nutzer_id) {
+        String sql = """
+                SELECT w.workout_id, w.datum, u.name AS uebung,
+                       w. saetze, w.wiederholungen, w.gewicht_kg
+                FROM workouts w
+                JOIN uebungen u ON w.uebung_id = u.uebung_id
+                WHERE w.nutzer_id = ?;
+                ORDER BY w.datum DESC;
+                """;
+        try (Connection con = Datenbank.verbindungHerstellen();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, nutzer_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean gefunden = false;
+                System.out.printf("%-4s %-12s %-18s %6s %5s %8s%n",
+                        "ID", "Datum", "Übung", "Sätze", "Wdh", "kg");
+                while (rs.next()) {
+                    gefunden = true;
+                    System.out.printf("%-4d %-12s %-18s %6d %5d %8.1f%n",
+                            rs.getInt("workout_id"),
+                            rs.getDate("datum"),
+                            rs.getString("uebung"),
+                            rs.getInt("seatze"),
+                            rs.getInt("wiederholungen"),
+                            rs.getDouble("gewicht_kg"));
+                }
+                if (!gefunden) {
+                    System.out.println("Keine Workouts gefunden.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Fehler: " + e.getMessage());
+        }
+    }
 }
