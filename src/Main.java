@@ -45,4 +45,23 @@ public class Main {
             default -> System.out.println("Ungültige Auswahl.");
         }
     }
+    // 4. Aufräumen
+        if (server != null) {
+        server.stop(0);
+    }
+        System.out.println("Programm beendet.");
+}
+private static void zeigeMenue() {
+    System.out.println();
+    System.out.println("===== FITNESSTRACKER =====");
+    System.out.println("1 Nutzer anlegen");
+    System.out.println("2 Nutzer anzeigen");
+    System.out.println("3 Nutzer löschen");
+    System.out.println("4 Fortschritt anzeigen");
+    System.out.println("5 Workouts anzeigen");
+    System.out.println("6 Workout ändern");
+    System.out.println("7 Workout löschen");
+    System.out.println("8 Statistik anzeigen");
+    System.out.println("0 Beenden");
+}
 }
