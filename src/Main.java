@@ -15,5 +15,16 @@ import java.nio.charset.StandardCharsets;
 public class Main {
     public static void main(String[] args) {
 
+        // 1. Verbindung testen
+        try (Connection con = Datenbank.verbindungHerstellen()) {
+            System.out.println("Datenbankverbindung erfolgreich.");
+        } catch (SQLException e) {
+            System.out.println("Keine Verbindung zur Datenbank: " + e.getMessage());
+            return;
+        }
+        // 1.1 Objekte der externen Klassen erzeugen
+        NutzerDAO nutzerVw = new NutzerDAO();
+        Uebungsverwaltung uebungVw = new Uebungsverwaltung();
+        Scanner sc = new Scanner(System.in);
     }
 }
