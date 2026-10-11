@@ -132,5 +132,44 @@ public class Uebungsverwaltung {
         } catch (SQLException e) {
             System.out.println("Fehler beim Löschen: " + e.getMessage());
         }
+    }
+    public void statistikAnzeigen(int nutzerId) {
+        String sql = """
+                SELECT u.name AS uebung,
+                    COUNT(*) AS einheiten,
+                    SUM(w.saetze * w.wiederholungen) AS gesamt_wdh,
+                    ROUND(AVG(w.gewicht_kg), 1) AS durchschnitt_kg,
+                    MAX(w.gewicht_kg) AS max_kg
+                FROM workouts w
+                JOIN uebungen u ON w.uebung_id = u.uebung_id
+                WHERE w.nutzer_id = ?
+                GROUP BY u.name
+                HAVING COUNT(*) >= 2
+                ORDER BY einheiten DESC;
+                """;
+
+        try(Connection con = Datenbank.verbindungHerstellen();
+            PreparedStatement ps = con.prepareStatement(sql)){
+            ps.setInt(1, nutzerId);
+            try(ResultSet rs = ps.executeQuery()) {
+                boolean gefunden = false;
+                System.out.printf("%-18s %9s %12s %10s %8s%n",
+                        "Übung", "Einheiten", "Gesamt-Wdh", "Ø kg", "Max kg");
+                while (rs.next()) {
+                    gefunden = true;
+                    System.out.printf("%-18s %9d %12d %10.1f %8.1f%n",
+                            rs.getString("uebung"),
+                            rs.getLong("einheiten"),
+                            rs.getLong("gesamt_wdh"),
+                            rs.getDouble("durchschnitt_kg"),
+                            rs.getDouble("max_kg"));
+                }
+                if (!gefunden) {
+                    System.out.println("Noch keine Auswertung (mind. 2 Einheiten je Übung nötig).");
+                }
+            }
+        }catch(SQLException e) {
+            System.out.println("Fehler bei der Auswertung: " + e.getMessage());
         }
+    }
 }
