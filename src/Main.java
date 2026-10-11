@@ -75,3 +75,14 @@ private static int leseInt(Scanner sc, String text) {
         }
     }
 }
+private static double leseDouble(Scanner sc, String text) {
+    while (true) {
+        System.out.print(text);
+        try {
+            return Double.parseDouble(sc.nextLine().trim().replace(',', '.'));
+        } catch (NumberFormatException e) {
+            System.out.println("Bitte eine Zahl eingeben.");
+        }
+    }
+}
+}
