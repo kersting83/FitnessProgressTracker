@@ -26,13 +26,30 @@ public class Main {
         NutzerDAO nutzerVw = new NutzerDAO();
         Uebungsverwaltung uebungVw = new Uebungsverwaltung();
         Scanner sc = new Scanner(System.in);
-    }
-            }
-            case 2 -> nutzerVw.nutzerAnzeigen();
-            case 3 -> nutzerVw.nutzerLoeschen(leseInt(sc, "Nutzer-ID: "));
-            case 4 -> uebungVw.fortschrittAnzeigen(leseInt(sc, "Nutzer-ID: "));
-            case 5 -> uebungVw.workoutsAnzeigen(leseInt(sc, "Nutzer-ID: "));
-            case 6 -> {
+
+        // 2. API starten
+        HttpServer server = starteApi(nutzerVw, uebungVw);
+
+        // 3. Menüschleife
+        boolean laeuft = true;
+        while (laeuft) {
+            zeigeMenue();
+            int wahl = leseInt(sc, "Auswahl: ");
+            switch (wahl) {
+                case 1 -> {
+                    System.out.print("Vorname: ");
+                    String vorname = sc.nextLine();
+                    System.out.print("Nachname: ");
+                    String nachname = sc.nextLine();
+                    System.out.print("E-Mail: ");
+                    String email = sc.nextLine();
+                    double gewicht = leseDouble(sc, "Gewicht in kg: ");
+                    nutzerVw.nutzerAnlegen(vorname, nachname, email, gewicht);
+                }case 2 -> nutzerVw.nutzerAnzeigen();
+                case 3 -> nutzerVw.nutzerLoeschen(leseInt(sc, "Nutzer-ID: "));
+                case 4 -> uebungVw.fortschrittAnzeigen(leseInt(sc, "Nutzer-ID: "));
+                case 5 -> uebungVw.workoutsAnzeigen(leseInt(sc, "Nutzer-ID: "));
+                case 6 -> {
                 int id = leseInt(sc, "Workout-ID: ");
                 int saetze = leseInt(sc, "Neue Sätze: ");
                 int wdh = leseInt(sc, "Neue Wiederholungen: ");
